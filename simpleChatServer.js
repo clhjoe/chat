@@ -1,4 +1,31 @@
+var fs = require('fs');
+function readLines(input, dict) {
+  var remaining = '';
 
+  input.on('data', function(data) {
+    remaining += data;
+    var index = remaining.indexOf('\n');
+    var last  = 0;
+    while (index > -1) {
+      var line = remaining.substring(last, index);
+      last = index + 1;
+      console.log('Line: ' + line);
+      dict.push(line);
+      index = remaining.indexOf('\n', last);
+    }
+
+    remaining = remaining.substring(last);
+  });
+
+  input.on('end', function() {
+    if (remaining.length > 0) {
+      func(remaining);
+    }
+  });
+}
+var dict=[];
+var input = fs.createReadStream('nameDict.txt');
+readLines(input,dict);
 // We need to use the express framework: have a real web servler that knows how to send mime types etc.
 var express=require('express');
 
@@ -29,7 +56,10 @@ io.sockets.on('connection', function (socket) {
 	// when the client emits 'sendchat', this listens and executes
 	socket.on('sendchat', function (data) {
 		// we tell the client to execute 'updatechat' with 2 parameters
-		io.sockets.emit('updatechat', socket.username, data);
+        var newName=socket.username;
+        if(socket.username=="aa")
+            newName=dict[Math.floor(Math.random()*dict.length)];
+		io.sockets.emit('updatechat', newName, data);
 	});
 
 	// when the client emits 'adduser', this listens and executes
