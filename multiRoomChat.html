@@ -12,7 +12,7 @@
 	// listener, whenever the server emits 'updatechat', this updates the chat body
 	socket.on('updatechat', function (username, data) {
         if(data=='')
-            $('#conversation').append('<b>Server:</b> ' +username+"是不會打字喔 糙"+ data + '<br>');
+            $('#conversation').append('<b>Fuck Lead:</b> ' +username+"是不會打字喔 糙"+ data + '<br>');
         else
 		    $('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
 	});

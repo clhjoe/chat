@@ -40,10 +40,10 @@ io.sockets.on('connection', function (socket) {
 		// add the client's username to the global list
 		usernames[username] = username;
 		// echo to client they've connected
-		socket.emit('updatechat', 'SERVER', 'you have sun of bitch connected');
+		socket.emit('updatechat', 'Fuck Lead', 'you have sun of bitch connected');
         socket.emit('updateusercount',usercount);
 		// echo globally (all clients) that a person has connected
-		socket.broadcast.emit('updatechat', 'SERVER  bitch', username + ' has connected');
+		socket.broadcast.emit('updatechat', 'Fuck Lead  bitch', username + ' has connected');
 		// update the list of users in chat, client-side
 		io.sockets.emit('updateusers', usernames);
 	});
@@ -55,7 +55,7 @@ io.sockets.on('connection', function (socket) {
 		// update list of users in chat, client-side
 		io.sockets.emit('updateusers', usernames);
 		// echo globally that this client has left
-		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+		socket.broadcast.emit('updatechat', 'Fuck Lead', socket.username + ' has disconnected');
         usercount--;
         socket.emit('updateusercount',usercount);
 	});
