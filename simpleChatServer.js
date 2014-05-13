@@ -23,7 +23,7 @@ app.get('/', function (req, res) {
 
 // usernames which are currently connected to the chat
 var usernames = {};
-
+var usercount=0;
 io.sockets.on('connection', function (socket) {
 
 	// when the client emits 'sendchat', this listens and executes
@@ -36,10 +36,12 @@ io.sockets.on('connection', function (socket) {
 	socket.on('adduser', function(username){
 		// we store the username in the socket session for this client
 		socket.username = username;
+        usercount++;
 		// add the client's username to the global list
 		usernames[username] = username;
 		// echo to client they've connected
 		socket.emit('updatechat', 'SERVER', 'you have sun of bitch connected');
+        socket.emit('updateusercount',usercount);
 		// echo globally (all clients) that a person has connected
 		socket.broadcast.emit('updatechat', 'SERVER  bitch', username + ' has connected');
 		// update the list of users in chat, client-side
@@ -54,5 +56,7 @@ io.sockets.on('connection', function (socket) {
 		io.sockets.emit('updateusers', usernames);
 		// echo globally that this client has left
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
+        usercount--;
+        socket.emit('updateusercount',usercount);
 	});
 });
