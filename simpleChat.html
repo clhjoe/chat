@@ -11,7 +11,10 @@
 
 	// listener, whenever the server emits 'updatechat', this updates the chat body 
 	socket.on('updatechat', function (username, data) {
-		$('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');
+        if(data=='')
+            $('#conversation').append('<b>Server:</b> ' +username+"是不會打字喔 糙"+ data + '<br>');
+        else
+		    $('#conversation').append('<b>'+username + ':</b> ' + data + '<br>');            
 	});
 
 	// listener, whenever the server emits 'updateusers', this updates the username list
@@ -37,8 +40,9 @@
 			if(e.which == 13) {
 				$(this).blur();
 				$('#datasend').click();
-                                $('#data').focus();
-                                $('conversation').scrollTop = 9999999;
+                $('#data').focus();
+                $('#conversation').scrollTop = 9999999;
+                $('#outside').scrollTop = 9999999;
 			}
 		});
 	});
@@ -48,7 +52,7 @@
 	<b>USERS</b>
 	<div id="users"></div>
 </div>
-<div style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
+<div id="outside" style="float:left;width:300px;height:250px;overflow:scroll-y;padding:10px;">
 	<div id="conversation"></div>
 	<input id="data" style="width:200px;" />
 	<input type="button" id="datasend" value="send" />
